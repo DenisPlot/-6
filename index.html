@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Определение вида ириса</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding-top: 50px; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #555; font-weight: 600; font-size: 14px; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 16px; }
+        input:focus { border-color: #007bff; outline: none; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #0056b3; }
+        .result { margin-top: 25px; padding: 20px; background: #e8f4fd; border-left: 5px solid #007bff; border-radius: 6px; display: none; }
+        .result h2 { margin-top: 0; color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌺 Ирисы</h1>
+        
+        <!-- Убрали action, чтобы не было ошибки -->
+        <form onsubmit="predict(event)">
+            <div class="input-group">
+                <label>Длина чашелистика (см):</label>
+                <input type="number" step="0.1" id="sl" required>
+            </div>
+            <div class="input-group">
+                <label>Ширина чашелистика (см):</label>
+                <input type="number" step="0.1" id="sw" required>
+            </div>
+            <div class="input-group">
+                <label>Длина лепестка (см):</label>
+                <input type="number" step="0.1" id="pl" required>
+            </div>
+            <div class="input-group">
+                <label>Ширина лепестка (см):</label>
+                <input type="number" step="0.1" id="pw" required>
+            </div>
+            <button type="submit">Узнать результат</button>
+        </form>
+
+        <div id="resultBox" class="result">
+            <h2 id="resName"></h2>
+            <p id="resDesc"></p>
+        </div>
+    </div>
+
+    <script>
+        function predict(event) {
+            // Отменяем стандартную отправку формы
+            event.preventDefault();
+
+            // Получаем значения
+            let sl = parseFloat(document.getElementById('sl').value);
+            let sw = parseFloat(document.getElementById('sw').value);
+            let pl = parseFloat(document.getElementById('pl').value);
+            let pw = parseFloat(document.getElementById('pw').value);
+
+            // Простые правила (имитация работы дерева решений)
+            let name = "";
+            let desc = "";
+
+            if (pl < 2.5) {
+                name = "Ирис щетинистый (Iris setosa)";
+                desc = "Небольшой цветок с короткими и широкими лепестками.";
+            } else if (pl < 4.9) {
+                name = "Ирис разноцветный (Iris versicolor)";
+                desc = "Средние размеры, лепестки фиолетово-синие с желтым пятном.";
+            } else {
+                name = "Ирис виргинский (Iris virginica)";
+                desc = "Крупный цветок с длинными лепестками.";
+            }
+
+            // Выводим результат на страницу
+            document.getElementById('resName').innerText = name;
+            document.getElementById('resDesc').innerText = desc;
+            document.getElementById('resultBox').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
